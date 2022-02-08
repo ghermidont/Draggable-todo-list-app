@@ -6,12 +6,17 @@ type ColumnProps = {
     text: string;
 };
 
-export const Column = ( { text }: ColumnProps ) => {
+//The below syntax is a short hand for:
+// type ColumnProps = {
+//     text: string
+//     children?: React.ReactNode;
+// }>
+
+export const Column: FC<ColumnProps> = ( { text, children } ) => {
     return (
         <ColumnContainer>
-            <ColumnTitle>
-                Column Title
-            </ColumnTitle>
+            <ColumnTitle> {text} </ColumnTitle>
+            {children}
         </ColumnContainer>
     );
 }
