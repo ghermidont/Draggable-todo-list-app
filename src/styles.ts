@@ -9,6 +9,7 @@ height: 100%;
 padding: 20px;
 width: 100%;
 `
+
 export const ColumnContainer = styled.div`
 background-color: #ebecf0;
 width: 300px;
@@ -81,4 +82,3 @@ margin-bottom: 0.5rem;
 padding: 0.5rem 1rem;
 width: 100%;
 `
-
