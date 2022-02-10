@@ -4,19 +4,19 @@ import{ Column } from "./Column";
 import{ AppContainer } from "./styles";
 import{ AddNewItem } from "./AddNewItem";
 import { useAppState } from "./state/AppStateContext";
+import { addList } from "./state/actions";
 
 export const App = () => {
-    const { lists } = useAppState()
+    const { lists, dispatch } = useAppState();
     return (
         <AppContainer>
-            {/*/!*We dont have to specify the type of the loop variable list. TypeScript derived it automatically.*/}
             {lists.map((list) => (
-                // We will use the id to find the corresponding tasks in the context.
-                <Column text={list.text} key={list.id} id={list.id} />
+                <Column text={list.text} key={list.id} id={list.id}/>
             ))}
+            {/*We get the dispatch method from the useAppState hook and then call it in the onAdd callback.*/}
             <AddNewItem
                 toggleButtonText="+ Add another list"
-                onAdd={console.log}
+                onAdd={text => dispatch(addList(text))}
             />
         </AppContainer>
     )
