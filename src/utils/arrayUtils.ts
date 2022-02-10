@@ -4,4 +4,20 @@ type Item = {
 
 export const findItemIndexById = <TItem extends Item>(items: TItem[], id: string ) => {
     return items.findIndex((item: TItem) => item.id === id)
+};
+
+export const moveItem = <TItem>(array: TItem[], from: number, to: number) => {
+    const item = array[from];
+    return insertItemAtIndex(removeItemAtIndex(array, from), item, to);
+};
+
+// We use the spread operator to generate a new array with the portion before the
+// index that we get using the slice method, and the portion after the index using the
+// slice method with index + 1.
+export function removeItemAtIndex<TItem>(array: TItem[], index: number){
+    return [...array.slice(0, index), ...array.slice(index + 1)];
+}
+
+export function insertItemAtIndex<TItem>( array: TItem[], item: TItem, index: number) {
+    return [...array.slice(0, index), item, ...array.slice(index)];
 }

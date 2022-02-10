@@ -7,6 +7,13 @@ export type Action =
     type: "ADD_TASK"
     payload: { text: string; listId: string }
 }
+    | {
+    type: "MOVE_LIST"
+    payload: {
+        draggedId: string
+        hoverId: string
+    }
+}
 
 //We could also define define the types in the union using the interface syntax:
 // interface AddListAction {
@@ -21,6 +28,7 @@ export type Action =
 
 //It would work same way.
 
+//Action creators
 export const addTask = ( text: string, listId: string, ): Action => ({
     type: "ADD_TASK",
     payload: {
@@ -33,3 +41,14 @@ export const addList = ( text: string, ): Action => ({
     type: "ADD_LIST",
     payload: text
 });
+
+export const moveList = (
+    draggedId: string,
+    hoverId: string,
+): Action => ({
+    type: "MOVE_LIST",
+    payload: {
+        draggedId,
+        hoverId,
+    }
+})
