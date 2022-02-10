@@ -42,15 +42,21 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
             break
         }
         case "MOVE_LIST": {
-            const { draggedId, hoverId } = action.payload
-            const dragIndex = findItemIndexById(draft.lists, draggedId)
-            const hoverIndex = findItemIndexById(draft.lists, hoverId)
-            draft.lists = moveItem(draft.lists, dragIndex, hoverIndex)
-            break
+            const { draggedId, hoverId } = action.payload;
+            const dragIndex = findItemIndexById(draft.lists, draggedId);
+            const hoverIndex = findItemIndexById(draft.lists, hoverId);
+            draft.lists = moveItem(draft.lists, dragIndex, hoverIndex);
+            break;
             // We take the draggedId and the hoverId from the action payload. Then we
             // calculate the indices of the dragged and the hovered columns. And then we override
             // the draft.lists value with the result of the moveItem function, which takes the
             // source array, and two indices that it swaps.
+        }
+        case "SET_DRAGGED_ITEM": {
+            draft.draggedItem = action.payload;
+            break;
+            //In this block set the draggedItem field of our draft state to whatever we get from
+            // the action.payload.
         }
         default: {
             break
