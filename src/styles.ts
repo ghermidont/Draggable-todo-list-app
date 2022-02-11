@@ -25,7 +25,7 @@ padding: 6px 16px 12px;
 font-weight: bold;
 `
 
-export const CardContainer = styled.div`
+export const CardContainer = styled(DragPreviewContainer)`
 background-color: #fff;
 cursor: pointer;
 margin-bottom: 0.5rem;
@@ -82,3 +82,49 @@ margin-bottom: 0.5rem;
 padding: 0.5rem 1rem;
 width: 100%;
 `
+
+interface DragPreviewContainerProps {
+    isHidden?: boolean
+    isPreview?: boolean
+}
+
+export const DragPreviewContainer = styled.div<DragPreviewContainerProps>`
+transform: ${props => (props.isPreview ? "rotate(5deg)" : undefined)};
+opacity: ${props => (props.isHidden ? 0 : 1)};
+`
+export const ColumnContainer = styled(DragPreviewContainer)`
+background-color: #ebecf0;
+width: 300px;
+min-height: 40px;
+margin-right: 20px;
+border-radius: 3px;
+padding: 8px 8px;
+flex-grow: 0;
+`
+// We want this container to be rendered on top of any other element on the page, so
+// we provide z-index: 100. Also, we specify pointer-events: none so it will ignore
+// all mouse events.
+export const CustomDragLayerContainer = styled.div`
+height: 100%;
+left: 0;
+pointer-events: none;
+position: fixed;
+top: 0;
+width: 100%;
+z-index: 100;
+`
+
+type DragPreviewWrapperProps = {
+    position: {
+        x: number
+        y: number
+    }
+}
+
+export const DragPreviewWrapper = styled.div.attrs<DragPreviewWrapperProps>(
+    ({ position: { x, y } }) => ({
+        style: {
+            transform: `translate(${x}px, ${y}px)`
+        }
+    })
+)<DragPreviewWrapperProps>``
