@@ -8,7 +8,7 @@ import { useDrop } from "react-dnd";
 import { moveList, addTask } from "./state/actions";
 import { useItemDrag } from "./utils/useItemDrag";
 import { isHidden } from "./utils/isHidden";
-
+import { addTask, moveTask, moveList, setDraggedItem } from "./state/actions";
 //Define props as type:
 type ColumnProps = {
     text: string
@@ -33,16 +33,21 @@ export const Column = ({ text, id, isPreview }: ColumnProps) => {
 
     const [, drop] = useDrop({
         // The hover callback is triggered whenever you move the dragged item above the drop target
-        accept: "COLUMN",
-        hover() {
-            if (!draggedItem) {
-                return
-            }
-            if (draggedItem.type === "COLUMN") {
-                if (draggedItem.id === id) {
+        accept: ["COLUMN", "CARD"],
+        hover(item: DragItem) {
+            if (item.type === "COLUMN") {
+// ... dragging column
+            } else {
+                if (draggedItem.columnId === id) {
                     return
                 }
-                dispatch(moveList(draggedItem.id, id))
+                if (tasks.length) {
+                    return
+                }
+                dispatch(
+                    moveTask(draggedItem.id, null, draggedItem.columnId, id);
+                )
+                dispatch(setDraggedItem({ ...draggedItem, columnId: id }));
             }
         }
     });
@@ -57,7 +62,7 @@ export const Column = ({ text, id, isPreview }: ColumnProps) => {
         >
             <ColumnTitle>{text}</ColumnTitle>
             {tasks.map((task) => (
-                <Card text={task.text} key={task.id} id={task.id}/>
+                <Card text={task.text} key={task.id} id={task.id} columnId={id}/>
             ))}
             <AddNewItem
                 toggleButtonText="+ Add another card"

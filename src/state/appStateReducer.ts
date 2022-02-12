@@ -39,7 +39,7 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
                 id: nanoid(),
                 text
             })
-            break
+            break;
         }
         case "MOVE_LIST": {
             const { draggedId, hoverId } = action.payload;
@@ -57,6 +57,34 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
             break;
             //In this block set the draggedItem field of our draft state to whatever we get from
             // the action.payload.
+        }
+        case "MOVE_TASK": {
+            const {
+                draggedItemId,
+                hoveredItemId,
+                sourceColumnId,
+                targetColumnId
+            } = action.payload;
+            const sourceListIndex = findItemIndexById(
+                draft.lists,
+                sourceColumnId
+            );
+            const targetListIndex = findItemIndexById(
+                draft.lists,
+                targetColumnId
+            );
+            const dragIndex = findItemIndexById(
+                draft.lists[sourceListIndex].tasks,
+                draggedItemId
+            );
+            const hoverIndex = hoveredItemId
+                ? findItemIndexById(
+                    draft.lists[targetListIndex].tasks,
+                    hoveredItemId
+                )
+                : 0;
+            const item = draft.lists[sourceListIndex].tasks[dragIndex];
+            //TODO Complete this code from complete code.
         }
         default: {
             break
