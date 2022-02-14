@@ -1,8 +1,9 @@
-import { createContext, useContext, Dispatch, FC } from "react";
+import { createContext, useContext, useEffect, Dispatch, FC } from "react";
 import { Action } from "./actions";
 import { useImmerReducer } from "use-immer";
 import { appStateReducer, AppState, List, Task } from "./appStateReducer";
 import { DragItem } from "../DragItem";
+import { save } from "../api";
 const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps);
 
 type AppStateContextProps = {
@@ -21,6 +22,10 @@ export const useAppState = () => {
 export const AppStateProvider: FC = ({ children }) => {
     // Here we get the state value from the reducer and also we provide the dispatch method through the context.
     const [state, dispatch] = useImmerReducer(appStateReducer, appData);
+
+    useEffect(() => {
+        save(state);
+    }, [state]);
 
     const { draggedItem, lists } = state;
     const getTasksByListId = (id: string) => {
