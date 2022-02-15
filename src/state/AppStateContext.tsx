@@ -1,16 +1,25 @@
-import { createContext, useContext, useEffect, Dispatch, FC } from "react";
+import React, { createContext, useContext, useEffect, Dispatch, FC } from "react";
 import { Action } from "./actions";
 import { useImmerReducer } from "use-immer";
 import { appStateReducer, AppState, List, Task } from "./appStateReducer";
 import { DragItem } from "../DragItem";
 import { save } from "../api";
 const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps);
+import { withInitialState } from "../withInitialState";
 
 type AppStateContextProps = {
     draggedItem: DragItem | null
     lists: List[]
     getTasksByListId(id: string): Task[]
     dispatch: Dispatch<Action>
+}
+/* Here we define the children prop as a required field to make it clear that the
+   AppStateProvider is supposed to wrap other components.
+*/
+
+type AppStateProviderProps = {
+    children: React.ReactNode
+    initialState: AppState
 }
 
 //Inside this hook, we’ll get the value from the AppStateContext using the useContext hook and return the result.
@@ -19,9 +28,10 @@ export const useAppState = () => {
     return useContext(AppStateContext)
 };
 
-export const AppStateProvider: FC = ({ children }) => {
+export const AppStateProvider = withInitialState<AppStateProviderProps>(
+    ({ children, initialState }) => {
     // Here we get the state value from the reducer and also we provide the dispatch method through the context.
-    const [state, dispatch] = useImmerReducer(appStateReducer, appData);
+    const [state, dispatch] = useImmerReducer(appStateReducer, initialState);
 
     useEffect(() => {
         save(state);
@@ -36,7 +46,8 @@ export const AppStateProvider: FC = ({ children }) => {
             {children}
         </AppStateContext.Provider>
     );
-};
+}
+);
 
 
 //Delete the following lines.
