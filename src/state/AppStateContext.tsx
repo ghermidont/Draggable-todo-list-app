@@ -5,7 +5,7 @@ import { appStateReducer, AppState, List, Task } from "./appStateReducer";
 import { DragItem } from "../DragItem";
 import { save } from "../api";
 const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps);
-import { withInitialState } from "../withInitialState";
+import { withInitialState } from "../utils/withInitialState";
 
 type AppStateContextProps = {
     draggedItem: DragItem | null

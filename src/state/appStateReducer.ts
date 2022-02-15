@@ -18,12 +18,15 @@ export type List = {
     text: string
     tasks: Task[]
 }
-export type AppState = {
-    lists: List[]
-}
 
 export const appStateReducer = (draft: AppState, action: Action): AppState | void => {
     switch (action.type) {
+        case "SET_DRAGGED_ITEM": {
+            draft.draggedItem = action.payload
+            break;
+        }
+            /*In this block set the draggedItem field of our draft state to whatever we get from
+              the action.payload.*/
         case "ADD_LIST": {
             draft.lists.push({
                 id: nanoid(),
@@ -47,17 +50,12 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
             const hoverIndex = findItemIndexById(draft.lists, hoverId);
             draft.lists = moveItem(draft.lists, dragIndex, hoverIndex);
             break;
-            // We take the draggedId and the hoverId from the action payload. Then we
-            // calculate the indices of the dragged and the hovered columns. And then we override
-            // the draft.lists value with the result of the moveItem function, which takes the
-            // source array, and two indices that it swaps.
+            /* We take the draggedId and the hoverId from the action payload. Then we
+               calculate the indices of the dragged and the hovered columns. And then we override
+               the draft.lists value with the result of the moveItem function, which takes the
+               source array, and two indices that it swaps.*/
         }
-        case "SET_DRAGGED_ITEM": {
-            draft.draggedItem = action.payload;
-            break;
-            //In this block set the draggedItem field of our draft state to whatever we get from
-            // the action.payload.
-        }
+
         case "MOVE_TASK": {
             const {
                 draggedItemId,
@@ -83,8 +81,15 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
                     hoveredItemId
                 )
                 : 0;
+
             const item = draft.lists[sourceListIndex].tasks[dragIndex];
-            //TODO Complete this code from complete code.
+
+            // Remove the task from the source list
+            draft.lists[sourceListIndex].tasks.splice(dragIndex, 1);
+
+            // Add the task to the target list
+            draft.lists[targetListIndex].tasks.splice(hoverIndex, 0, item);
+            break;
         }
         default: {
             break

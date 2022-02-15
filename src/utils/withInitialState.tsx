@@ -1,7 +1,7 @@
 //This is a HOC (Higher Order Component);
-import React, { useState, useEffect, ComponentType } from "react";
-import { AppState } from "./state/appStateReducer";
-import { load } from "./api";
+import React, { useState, useEffect } from "react";
+import { AppState } from "../state/appStateReducer";
+import { load } from "../api";
 
 //define a type that will represent the props that we are injecting.
 type InjectedProps = {

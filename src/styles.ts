@@ -10,29 +10,9 @@ padding: 20px;
 width: 100%;
 `
 
-export const ColumnContainer = styled.div`
-background-color: #ebecf0;
-width: 300px;
-min-height: 40px;
-margin-right: 20px;
-border-radius: 3px;
-padding: 8px 8px;
-flex-grow: 0;
-`
-
 export const ColumnTitle = styled.div`
 padding: 6px 16px 12px;
 font-weight: bold;
-`
-
-export const CardContainer = styled(DragPreviewContainer)`
-background-color: #fff;
-cursor: pointer;
-margin-bottom: 0.5rem;
-padding: 0.5rem 1rem;
-max-width: 300px;
-border-radius: 3px;
-box-shadow: #091e4240 0px 1px 0px 0px;
 `
 
 type AddItemButtonProps = {
@@ -92,6 +72,16 @@ export const DragPreviewContainer = styled.div<DragPreviewContainerProps>`
 transform: ${props => (props.isPreview ? "rotate(5deg)" : undefined)};
 opacity: ${props => (props.isHidden ? 0 : 1)};
 `
+export const CardContainer = styled(DragPreviewContainer)`
+background-color: #fff;
+cursor: pointer;
+margin-bottom: 0.5rem;
+padding: 0.5rem 1rem;
+max-width: 300px;
+border-radius: 3px;
+box-shadow: #091e4240 0px 1px 0px 0px;
+`
+
 export const ColumnContainer = styled(DragPreviewContainer)`
 background-color: #ebecf0;
 width: 300px;
@@ -101,9 +91,12 @@ border-radius: 3px;
 padding: 8px 8px;
 flex-grow: 0;
 `
-// We want this container to be rendered on top of any other element on the page, so
-// we provide z-index: 100. Also, we specify pointer-events: none so it will ignore
-// all mouse events.
+
+/* We want this container to be rendered on top of any other element on the page, so
+   we provide z-index: 100. Also, we specify pointer-events: none so it will ignore
+   all mouse events.
+*/
+
 export const CustomDragLayerContainer = styled.div`
 height: 100%;
 left: 0;

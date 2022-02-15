@@ -1,5 +1,7 @@
 //This function will accept the current state and send it to the backend as JSON. In case
 // of an unsuccessful save we’ll throw an error.
+import { AppState } from "./state/appStateReducer";
+
 export const save = (payload: AppState) => {
     return fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/save`, {
         method: "POST",
