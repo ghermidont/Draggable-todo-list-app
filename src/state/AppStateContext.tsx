@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, Dispatch, FC } from "react";
+import React, { createContext, useContext, useEffect, Dispatch } from "react";
 import { Action } from "./actions";
 import { useImmerReducer } from "use-immer";
 import { appStateReducer, AppState, List, Task } from "./appStateReducer";
@@ -48,26 +48,3 @@ export const AppStateProvider = withInitialState<AppStateProviderProps>(
     );
 }
 );
-
-
-//Delete the following lines.
-const appData: AppState = {
-    draggedItem: null,
-    lists: [
-        {
-            id: "0",
-            text: "To Do",
-            tasks: [{ id: "c0", text: "Generate app scaffold" }]
-        },
-        {
-            id: "1",
-            text: "In Progress",
-            tasks: [{ id: "c2", text: "Learn Typescript" }]
-        },
-        {
-            id: "2",
-            text: "Done",
-            tasks: [{ id: "c3", text: "Begin to use static typing" }]
-        }
-    ]
-};
