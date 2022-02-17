@@ -25,22 +25,23 @@ type AppStateProviderProps = {
 //Inside this hook, we’ll get the value from the AppStateContext using the useContext hook and return the result.
 //We don’t need to specify the types, because TypeScript can derive them automatically based on AppStateContext type.
 export const useAppState = () => {
-    return useContext(AppStateContext)
+    return useContext(AppStateContext);
 };
 
-export const AppStateProvider = withInitialState<AppStateProviderProps>(
-    ({ children, initialState }) => {
+export const AppStateProvider = withInitialState<AppStateProviderProps>(({ children, initialState }) => {
     // Here we get the state value from the reducer and also we provide the dispatch method through the context.
     const [state, dispatch] = useImmerReducer(appStateReducer, initialState);
 
     useEffect(() => {
-        save(state);
+        save(state).then(()=>console.log("save() worked"));
     }, [state]);
 
     const { draggedItem, lists } = state;
+
     const getTasksByListId = (id: string) => {
         return lists.find((list) => list.id === id)?.tasks || [];
-    }
+    };
+
     return (
         <AppStateContext.Provider value={{ draggedItem, lists, getTasksByListId, dispatch }}>
             {children}

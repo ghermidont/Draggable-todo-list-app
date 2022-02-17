@@ -22,7 +22,7 @@ export const App = () => {
                 onAdd={text => dispatch(addList(text))}
             />
         </AppContainer>
-    )
+    );
 };
 
 export default App;

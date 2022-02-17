@@ -1,5 +1,5 @@
 import { CardContainer } from "./styles";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useItemDrag } from "./utils/useItemDrag";
 import { useDrop } from "react-dnd";
 import { useAppState } from "./state/AppStateContext";
@@ -12,6 +12,7 @@ type CardProps = {
     columnId: string
     isPreview?: boolean
 }
+
 export const Card = ({ text, id, columnId, isPreview }: CardProps) => {
     const { draggedItem, dispatch } = useAppState();
     const ref = useRef<HTMLDivElement>(null);
@@ -28,19 +29,19 @@ export const Card = ({ text, id, columnId, isPreview }: CardProps) => {
             accept: "CARD",
             hover() {
                 if (!draggedItem) {
-                    return
+                    return;
                 }
                 if (draggedItem.type !== "CARD") {
-                    return
+                    return;
                 }
                 if (draggedItem.id === id) {
-                    return
+                    return;
                 }
 
                 dispatch(
                     moveTask(draggedItem.id, id, draggedItem.columnId, columnId)
-                )
-                dispatch(setDraggedItem({ ...draggedItem, columnId }))
+                );
+                dispatch(setDraggedItem({ ...draggedItem, columnId }));
             }
         }),
         [draggedItem]
@@ -53,6 +54,6 @@ export const Card = ({ text, id, columnId, isPreview }: CardProps) => {
         isPreview={ isPreview }
         ref={ ref }
         >
-        {text}
-    </CardContainer>
-}
+            {text}
+    </CardContainer>;
+};

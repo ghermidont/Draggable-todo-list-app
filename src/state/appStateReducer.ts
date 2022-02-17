@@ -4,19 +4,20 @@ import { nanoid } from "nanoid";
 import { findItemIndexById, moveItem } from "../utils/arrayUtils";
 import { DragItem } from "../DragItem"
 
-export type AppState = {
-    lists: List[]
-    draggedItem: DragItem | null;
-}
-
 export type Task = {
     id: string
     text: string
 }
+
 export type List = {
     id: string
     text: string
     tasks: Task[]
+}
+
+export type AppState = {
+    draggedItem: DragItem | null
+    lists: List[]
 }
 
 export const appStateReducer = (draft: AppState, action: Action): AppState | void => {
@@ -36,12 +37,13 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
             break
         }
         case "ADD_TASK": {
-            const { text, listId } = action.payload
-            const targetListIndex = findItemIndexById(draft.lists, listId)
+            const { text, listId } = action.payload;
+            const targetListIndex = findItemIndexById(draft.lists, listId);
+
             draft.lists[targetListIndex].tasks.push({
                 id: nanoid(),
                 text
-            })
+            });
             break;
         }
         case "MOVE_LIST": {
@@ -63,18 +65,22 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
                 sourceColumnId,
                 targetColumnId
             } = action.payload;
+
             const sourceListIndex = findItemIndexById(
                 draft.lists,
                 sourceColumnId
             );
+
             const targetListIndex = findItemIndexById(
                 draft.lists,
                 targetColumnId
             );
+
             const dragIndex = findItemIndexById(
                 draft.lists[sourceListIndex].tasks,
                 draggedItemId
             );
+
             const hoverIndex = hoveredItemId
                 ? findItemIndexById(
                     draft.lists[targetListIndex].tasks,
@@ -92,7 +98,7 @@ export const appStateReducer = (draft: AppState, action: Action): AppState | voi
             break;
         }
         default: {
-            break
+            break;
         }
     }
 }

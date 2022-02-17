@@ -3,7 +3,7 @@
 import { AppState } from "./state/appStateReducer";
 
 export const save = (payload: AppState) => {
-    return fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/save`, {
+    return fetch("http://localhost:4000/save", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -13,9 +13,9 @@ export const save = (payload: AppState) => {
     })
         .then((response) => {
             if (response.ok){
-                return response.json()
+                return response.json();
             } else {
-                throw new Error("Error while saving the state.")
+                throw new Error("Error while saving the state.");
             }
         })
 };
@@ -25,13 +25,18 @@ export const save = (payload: AppState) => {
 // if the backend will return a non-ok status.
 
 export const load = () => {
-    return fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/load`).then(
+    console.log("load() worked!");
+    return fetch("http://localhost:4000/load", {
+        method: "GET",
+    })
+        .then(
         (response) => {
             if (response.ok){
-                return response.json() as Promise<AppState>
+                console.log("load() response: ", response);
+                return response.json() as Promise<AppState>;
             } else {
-                throw new Error("Error while loading the state.")
+                throw new Error("Error while loading the state.");
             }
         }
-    )
+    );
 };

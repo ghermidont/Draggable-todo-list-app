@@ -1,4 +1,4 @@
-import { DragItem } from "../DragItem"
+import { DragItem } from "../DragItem";
 
 export type Action =
     | {
@@ -28,7 +28,7 @@ export type Action =
         sourceColumnId: string
         targetColumnId: string
     }
-}
+};
 
 export const moveTask = (
     draggedItemId: string,
@@ -43,7 +43,7 @@ export const moveTask = (
         sourceColumnId,
         targetColumnId
     }
-})
+});
 
 export const moveList = (
     draggedId: string,
@@ -54,7 +54,7 @@ export const moveList = (
         draggedId,
         hoverId,
     }
-})
+});
 
 
 export const addTask = (
@@ -66,21 +66,21 @@ export const addTask = (
         text,
         listId
     }
-})
+});
 
 export const addList = (
     text: string,
 ): Action => ({
     type: "ADD_LIST",
     payload: text
-})
+});
 
 export const setDraggedItem = (
     draggedItem: DragItem | null,
 ): Action => ({
     type: "SET_DRAGGED_ITEM",
     payload: draggedItem
-})
+});
 
 /*We could also define define the types in the union using the interface syntax:
  interface AddListAction {

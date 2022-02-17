@@ -14,7 +14,7 @@ export const NewItemForm = ({ onAdd }: NewItemFormProps) => {
 
     const handleAddText = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            onAdd(text)
+            onAdd(text);
         }
     };
 
@@ -34,5 +34,5 @@ export const NewItemForm = ({ onAdd }: NewItemFormProps) => {
             </NewItemButton>
         </NewItemFormContainer>
     );
-}
+};
 

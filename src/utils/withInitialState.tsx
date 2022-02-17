@@ -17,6 +17,7 @@ type PropsWithoutInjected<TBaseProps> = Omit<TBaseProps, keyof InjectedProps>
 //Define a withInitialState function that accepts a WrappedComponent argument.
 //The WrappedComponent accepts an intersection type that contains the props from the type variable TProps and the props defined in the InjectedProps.
 export function withInitialState<TProps>(WrappedComponent: React.ComponentType<PropsWithoutInjected<TProps> & InjectedProps>) {
+    console.log("withInitialState() worked");
     /*
     This component should not accept the prop that we inject using this HOC. We don’t
     want to let the user provide this prop, because our HOC already does it. This is why
@@ -38,12 +39,13 @@ export function withInitialState<TProps>(WrappedComponent: React.ComponentType<P
      }
      */
 
-    //We return a nameless function component.
-    return (props: PropsWithoutInjected<TProps>) => {
+    const returnFunction = (props: PropsWithoutInjected<TProps>) => {
+        console.log("returnFunction() worked");
         const [initialState, setInitialState] = useState<AppState>({
-            lists: [],
-            draggedItem: null
+            draggedItem: null,
+            lists: []
         });
+
         /*
         The query keyOf returns a union type that contains the keys of the type that you pass
         to it, for example:
@@ -62,24 +64,28 @@ export function withInitialState<TProps>(WrappedComponent: React.ComponentType<P
             const fetchInitialState = async () => {
                 try {
                     const data = await load();
+                    console.log("data", data);
                     setInitialState(data);
-                } catch (e: any) {
-                    setError(e);
+                } catch (error: any) {
+                    console.log("fetchInitialState() catch worked error: ", error )
+                    setError(error);
                 }
                 setIsLoading(false);
             };
-            fetchInitialState();
+            fetchInitialState().then(()=>console.log("State fetched!"));
         }, []);
 
         if (isLoading) {
             return <div>Loading</div>;
         }
         if (error) {
+            console.error("if(error) worked", error);
             return <div>{error.message}</div>;
         }
 
-        return (
-            <WrappedComponent {...props} initialState={initialState} />
-        );
-    };
+        return <WrappedComponent {...props} initialState={initialState} />;
+    }
+
+    //We return a function component.
+    return returnFunction;
 }
